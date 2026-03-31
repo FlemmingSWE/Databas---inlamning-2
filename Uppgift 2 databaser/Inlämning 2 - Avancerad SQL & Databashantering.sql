@@ -22,7 +22,7 @@ INSERT INTO bocker(ISBN_Nummer, Bok_titel, Forfattare, Pris, Lagerstatus) VALUES
 # Visar tabellen böcker och dess inehåll
 SELECT * FROM bocker;
 
-# Skapar tabellen med "Kunder"
+# Skapar tabellen "Kunder"
 CREATE TABLE IF NOT EXISTS Kunder(
 	Kund_ID INT AUTO_INCREMENT PRIMARY KEY,
 	Förnamn VARCHAR(100) NOT NULL,
@@ -119,8 +119,7 @@ SET E_post = "maria_nymail@mail.com"
 WHERE Kund_ID = 3;
 COMMIT;
 
-# ON CASCADE
-
+# Om en kund tas bort från tabellen "kunder" ska den även tas bort från tabellen "kundlogg"
 ALTER TABLE kundlogg
 ADD CONSTRAINT kunder_kundlogg_borttagning
 FOREIGN KEY (Kund_ID) REFERENCES kunder (Kund_ID)
@@ -134,7 +133,7 @@ WHERE Förnamn = "Bertil";
 ROLLBACK;
 SELECT * FROM kunder;
 
-
+# Visar alla böcker som har ett pris över 180 kr
 SELECT * FROM bocker WHERE Pris > 180;
 
 # Visar vem som har beställt en bok
@@ -169,6 +168,7 @@ GROUP BY k.Kund_ID, k.Förnamn, k.Efternamn;
 ALTER TABLE bocker
 ADD CONSTRAINT CHECK (pris > 0);
 
+# Testar att constrainten "pris > 0" på böcker är korrekt implementerad
 INSERT INTO bocker(ISBN_Nummer, Bok_titel, Forfattare, Pris, Lagerstatus) VALUES
 ("32132155643", "hunter", "jan jansson", "-44", 3);
 
